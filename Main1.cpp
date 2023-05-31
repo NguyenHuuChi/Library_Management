@@ -143,18 +143,15 @@ class Libary {
             string author =book.getAuthor();
             string genre =book.getGenre();
             check_index locate_book =hash_function(title, author, genre);
-            ALL_BOOK.resize(locate_book.check_genre + 1);
-            ALL_BOOK[locate_book.check_genre].resize(locate_book.check_title + 1);
-            ALL_BOOK[locate_book.check_genre][locate_book.check_title].resize(locate_book.check_author + 1);
-            cout << locate_book.check_genre << " " << locate_book .check_title <<" "<< locate_book.check_author <<"1\n";
             ALL_BOOK[locate_book.check_genre][locate_book.check_title][locate_book.check_author].push_back(book);
-            cout << locate_book.check_genre << " " << locate_book .check_title <<" "<< locate_book.check_author <<"2\n";
             Book boo1=ALL_BOOK[locate_book.check_genre][locate_book.check_title][locate_book.check_author][0];
             boo1.get_information();
+            cout << "HEHEHE" << ALL_BOOK.size() << '\n';
             // cout <<"yoyo";
         }
     public :    
         Libary(){
+            ALL_BOOK = vector<vector<vector<vector<Book>>>>(300, vector<vector<vector<Book>>>(300, vector<vector<Book>>(300, vector<Book>(0))));
             string title_name;
             string author_name;
             ifstream Data_base_book("book.inp");
@@ -175,12 +172,11 @@ class Libary {
             check_index index=hash_function(title, author, genre);
             int check_title= index.check_title;
             int check_author=index.check_author;
-            int check_genre=index.check_genre; 
-            cout << "huhu\n";
+            int check_genre=index.check_genre;
             cout << check_genre <<" "<< check_title <<" "<< check_author <<"\n";
             Book book = ALL_BOOK[check_genre][check_title][check_author][0];
-            cout <<"yo2";
             book.get_information();
+
                 
             // for(auto book : ALL_BOOK[check_genre][check_title][check_author]){
             //     cout << "in this steps";
@@ -303,9 +299,7 @@ class Libary {
 };
 int main() {
     Libary Libary;
-    // cout << "which book do you want to find :";
-    // string author_in ;
-    // getline(cin, author_in);
     Libary.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    // Book bookk= Li
     return 0;
 }
