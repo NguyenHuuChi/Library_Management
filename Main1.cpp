@@ -16,6 +16,7 @@ class Book{
         string genre;
         bool available;
     public:
+        Book(){};
         Book(string title, string author,string genre){
             this-> title =title;
             this -> author =author;
@@ -124,8 +125,15 @@ check_index hash_function(string title, string author, string genre) {
         check_genre2 += 'a' - 'A';
 
     int check_author = check_author1 + check_author2;
+    if (check_author >200)check_author-=200;
+    if (check_author >100)check_author-=100;
     int check_title = check_title1 + check_title2;
+    if (check_title >200)check_title-=200;
+    if (check_title>100)check_title-=100;
     int check_genre = check_genre1 + check_genre2;
+    if (check_genre>200)check_genre-=200;
+    if (check_genre >100) check_genre-=100;
+    if (check_genre>50) check_genre-=50;
 
     result.check_title = check_title;
     result.check_author = check_author;
@@ -143,15 +151,14 @@ class Libary {
             string author =book.getAuthor();
             string genre =book.getGenre();
             check_index locate_book =hash_function(title, author, genre);
+            // cout << locate_book.check_genre << " " << locate_book.check_title <<" "<< locate_book.check_author<<"\n";
             ALL_BOOK[locate_book.check_genre][locate_book.check_title][locate_book.check_author].push_back(book);
             Book boo1=ALL_BOOK[locate_book.check_genre][locate_book.check_title][locate_book.check_author][0];
-            boo1.get_information();
-            cout << "HEHEHE" << ALL_BOOK.size() << '\n';
-            // cout <<"yoyo";
+
         }
     public :    
         Libary(){
-            ALL_BOOK = vector<vector<vector<vector<Book>>>>(300, vector<vector<vector<Book>>>(300, vector<vector<Book>>(300, vector<Book>(0))));
+            ALL_BOOK = vector<vector<vector<vector<Book>>>>(51, vector<vector<vector<Book>>>(101, vector<vector<Book>>(101, vector<Book>(0))));
             string title_name;
             string author_name;
             ifstream Data_base_book("book.inp");
@@ -168,26 +175,27 @@ class Libary {
             }
         };
         bool Find_the_book_availabel(string title,string author,string genre ){
+            title=trimSentence(title);
+            author=trimSentence(author);
+            genre=trimSentence(genre);
             Book book_find(title,author,genre);
             check_index index=hash_function(title, author, genre);
             int check_title= index.check_title;
             int check_author=index.check_author;
             int check_genre=index.check_genre;
             cout << check_genre <<" "<< check_title <<" "<< check_author <<"\n";
-            Book book = ALL_BOOK[check_genre][check_title][check_author][0];
-            book.get_information();
-
-                
-            // for(auto book : ALL_BOOK[check_genre][check_title][check_author]){
-            //     cout << "in this steps";
-            //     if(book== book_find){
-            //         if(book.getAvailable()){
-            //             cout << "The book :" << title << "of " << author << "is now available !";
-            //             return 1; 
-            //         }
-            //     } 
-            // };
-            // cout <<"The book :" << title << "of " << author << "is now not available !";
+            book_find.get_information();
+            cout << "information for books nnnnnnnnnnnnnnnnn: \n";  
+            for(auto book : ALL_BOOK[check_genre][check_title][check_author]){
+                book.get_information();
+                if(book== book_find){
+                    if(book.getAvailable()){
+                        cout << "The book :" << title << "of " << author << "is now available !";
+                        return 1; 
+                    }
+                } 
+            };
+            cout <<"The book :" << title << "of " << author << "is now not available !";
             return 0;
         }
         // vector<Book> Find_book_with_special_info(string title="-1", string author="-1", string genre="-1"){
