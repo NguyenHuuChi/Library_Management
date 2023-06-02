@@ -16,11 +16,12 @@ class Book{
         string genre;
         bool available;
     public:
-        Book(){};
-        Book(string title, string author,string genre){
+        // Book(){};
+        Book(string title="", string author="",string genre=""){
             this-> title =title;
             this -> author =author;
             this -> genre =genre;
+            this ->available=true;
         }
         string getTitle() const {
             return title;
@@ -185,7 +186,6 @@ class Libary {
             int check_genre=index.check_genre;
             cout << check_genre <<" "<< check_title <<" "<< check_author <<"\n";
             book_find.get_information();
-            cout << "information for books nnnnnnnnnnnnnnnnn: \n";  
             for(auto book : ALL_BOOK[check_genre][check_title][check_author]){
                 book.get_information();
                 if(book== book_find){
