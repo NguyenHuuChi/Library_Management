@@ -293,25 +293,31 @@ vector<Book> Library::Find_book_with_special_info(string title, string author, s
             }
         }
     }
-
+    int i=0;
     if (!related_title.empty()) {
         cout << "List of books whose title is " << title << ":\n";
         for (Book book : related_title) {
+            cout << "%d :", i;
             book.get_information();
+            i++;
         }
         return related_title;
     }
     else if (!related_author.empty()) {
         cout << "List of books whose author is " << author << ":\n";
         for (Book book : related_author) {
+            cout << "%d :", i;
             book.get_information();
+            i++;
         }
         return related_author;
     }
     else if (!related_genre.empty()) {
         cout << "List of books whose genre is " << genre << ":\n";
         for (Book book : related_genre) {
+            cout << "%d :", i;
             book.get_information();
+            i++;
         }
         return related_genre;
     }

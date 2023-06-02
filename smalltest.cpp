@@ -1,20 +1,24 @@
 #include <iostream>
-#include <vector>
+#include <fstream>
+using namespace std;
+void History_borrow_and_return_book(const string a) {
+    ofstream file("History.out", ios::app); // Open the file in append mode
+
+    if (file.is_open()) {
+        file << a << endl; // Write the string to the file
+        file.close(); // Close the file
+        cout << "String written to file successfully." << endl;
+    } else {
+        cout << "Failed to open the file." << endl;
+    }
+}
 
 int main() {
-    std::vector<int> numbers = {1, 2, 3, 4, 5};
-    int indexToRemove = 2;
+    string input;
+    cout << "Enter a string: ";
+    getline(cin, input);
 
-    // Remove the element at the specified index
-    if (indexToRemove >= 0 && indexToRemove < numbers.size()) {
-        numbers.erase(numbers.begin() + indexToRemove);
-    }
-
-    // Output the updated vector
-    for (const auto& number : numbers) {
-        std::cout << number << " ";
-    }
-    std::cout << std::endl;
+    History_borrow_and_return_book(input);
 
     return 0;
 }
