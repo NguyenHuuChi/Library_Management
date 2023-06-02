@@ -178,6 +178,8 @@ vector<vector<vector<vector<Book>>>> Library :: get_ALLBOOK(){
     return ALL_BOOK;
 }
 
+/* this function will return the index location of the book
+return the location if it is available otherwise return the final index =-1*/
 index_of_location Library::Find_the_book_availabel(string title, string author, string genre) {
     index_of_location location;
     title = trimSentence(title);
