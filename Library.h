@@ -35,7 +35,13 @@ class Book{
         void Return_book();
         void get_information();
 };
-
+struct index_of_locatio{
+    int title;
+    int author;
+    int genre;
+    int index;
+};
+typedef struct index_of_locatio index_of_location;
 
 class Library{
     private : 
@@ -43,6 +49,7 @@ class Library{
         void locate_the_book(Book book);
     public:
         Library();
-        bool Find_the_book_availabel(string title,string author,string genre );
+        vector<vector<vector<vector<Book>>>> get_ALLBOOK();
+        index_of_location Find_the_book_availabel(string title,string author,string genre );
         vector<Book> Find_book_with_special_info(string title="-1", string author="-1", string genre="-1");
 };

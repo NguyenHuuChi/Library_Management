@@ -15,8 +15,9 @@ using namespace std;
 int main(){
     Library Library;
     
-    Library.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    index_of_location i=Library.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
     // Libary.Find_book_with_special_info("-1","-1","fiction");
+    cout <<i.index;
     
     return 0;
 }

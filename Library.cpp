@@ -49,11 +49,11 @@ bool Book::getAvailable() {
 }
 
 void Book::Borrow_book() {
-    available = true;
+    available = false;
 }
 
 void Book::Return_book() {
-    available = false;
+    available = true;
 }
 
 void Book::get_information() {
@@ -174,7 +174,12 @@ Library::Library() {
     }
 }
 
-bool Library::Find_the_book_availabel(string title, string author, string genre) {
+vector<vector<vector<vector<Book>>>> Library :: get_ALLBOOK(){
+    return ALL_BOOK;
+}
+
+index_of_location Library::Find_the_book_availabel(string title, string author, string genre) {
+    index_of_location location;
     title = trimSentence(title);
     author = trimSentence(author);
     genre = trimSentence(genre);
@@ -183,16 +188,22 @@ bool Library::Find_the_book_availabel(string title, string author, string genre)
     int check_title = index.check_title;
     int check_author = index.check_author;
     int check_genre = index.check_genre;
-    for (auto book : ALL_BOOK[check_genre][check_title][check_author]) {
-        if (book == book_find) {
-            if (book.getAvailable()) {
+    location.author=check_author;
+    location.genre=check_genre;
+    location.title=check_title;
+    for (int i=0; i< ALL_BOOK[check_genre][check_title][check_author].size(); i++) {
+        
+        if (ALL_BOOK[check_genre][check_title][check_author][i] == book_find) {
+            if (ALL_BOOK[check_genre][check_title][check_author][i].getAvailable()) {
                 cout << "The book: " << title << " by " << author << " is now available!" << endl;
-                return true;
+                location.index=i;
+                return location;
             }
         }
     }
     cout << "The book: " << title << " by " << author << " is not available!" << endl;
-    return false;
+    location.index=-1;
+    return location;
 }
 
 vector<Book> Library::Find_book_with_special_info(string title, string author, string genre) {
