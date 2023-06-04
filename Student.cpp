@@ -166,10 +166,12 @@ void Manage_student:: Find_student_borrow_book(Library& library,Book book){
             for(int j =0; j < List_student_borrow_book.size(); j++){
                 if(ID== List_student_borrow_book[i].get_ID()){
                     List_student_borrow_book[i].get_information();
+                    return;
                 }
             }
         }
     }
+    cout << "Noone borrowed this book!\n";
 };
 
 
