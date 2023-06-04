@@ -8,7 +8,8 @@
 #include<vector>
 #include<list>
 using namespace std;
-
+#ifndef LIBRARY_H
+#define LIBRARY_H
 
 struct check_index{
     int check_title;
@@ -16,7 +17,7 @@ struct check_index{
     int check_genre;
 };
 typedef check_index check_index;
-check_index hash_function(string title, string author, string genre);
+// check_index hash_function(string title, string author, string genre);
 class Book{
     private :
         string title;
@@ -50,6 +51,9 @@ class Library{
     public:
         Library();
         vector<vector<vector<vector<Book>>>> get_ALLBOOK();
+        void Borrow_in_lib(Book book);
+        void Return_in_lib(Book book);
         index_of_location Find_the_book_availabel(string title,string author,string genre );
         vector<Book> Find_book_with_special_info(string title="-1", string author="-1", string genre="-1");
 };
+#endif // LIBRARY_H

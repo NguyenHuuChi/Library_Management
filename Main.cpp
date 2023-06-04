@@ -16,9 +16,17 @@ using namespace std;
 int main(){
     Library Library;
     
-    index_of_location i=Library.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
-    // Libary.Find_book_with_special_info("-1","-1","fiction");
-    cout <<i.index;
+    // index_of_location i=Library.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    // // Libary.Find_book_with_special_info("-1","-1","fiction");
+    // Book book1("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    // Library.Borrow_in_lib(book1);
+    // index_of_location j=Library.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    // Library.Return_in_lib(book1);
+    // index_of_locatio h =Library.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    
+
+    Library.Find_book_with_special_info("To Kill a Mockingbird","  Harper Lee  ","-1");
+
 
     // Library  library;
     // Library & libref= library;

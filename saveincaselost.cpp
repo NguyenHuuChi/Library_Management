@@ -45,10 +45,18 @@ class Book{
             return available;
         }
         void Borrow_book(){
-            available =1;
+            cout << "in borrow Book \n";
+            this->available =0;
+            if(available){
+                cout << "faile to change the availble \n";
+
+            }
+            else{
+                cout << "change the variable successfully\n";
+            }
         }
         void Return_book(){
-            available=0;
+            this->available=1;
         }
         void get_information(){
             cout << "The book :" << title << "belong to " << author << " is " << genre << "type book \n";
@@ -175,6 +183,44 @@ class Libary {
             std::cerr << "Failed to open the file book.inp." << std::endl;
             }
         };
+        vector<vector<vector<vector<Book>>>> get_ALL_BOOK(){
+            return ALL_BOOK;
+        };
+        void test_Allbook(){
+            Book booktest("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+            string title=trimSentence(booktest.getTitle());
+            string author=trimSentence(booktest.getAuthor());
+            string genre=trimSentence(booktest.getGenre());
+            check_index index=hash_function(title,author,genre);
+            int check_title= index.check_title;
+            int check_author=index.check_author;
+            int check_genre=index.check_genre;
+            ALL_BOOK[check_genre][check_title][check_author][0].get_information();
+            ALL_BOOK[check_genre][check_title][check_author][0].Borrow_book();
+            if(ALL_BOOK[check_genre][check_title][check_author][0].getAvailable()){
+                cout << "I do not know\n";
+            } else {
+                cout <<"we can change in this direction !";
+            }
+        }
+        void Borrow_in_lib(Book book){
+            string title=trimSentence(book.getTitle());
+            string author=trimSentence(book.getAuthor());
+            string genre=trimSentence(book.getGenre());
+            check_index index=hash_function(title,author,genre);
+            int check_title= index.check_title;
+            int check_author=index.check_author;
+            int check_genre=index.check_genre;
+            for(auto books : ALL_BOOK[check_genre][check_title][check_author]){
+                books.get_information();
+                book.get_information();
+                if(books== book){      
+                    cout <<"equal :\n";   
+                    // books.Borrow_book();
+                    ALL_BOOK[check_genre][check_title][check_author][0].Borrow_book();
+                } 
+            };
+        }
         bool Find_the_book_availabel(string title,string author,string genre ){
             title=trimSentence(title);
             author=trimSentence(author);
@@ -184,13 +230,12 @@ class Libary {
             int check_title= index.check_title;
             int check_author=index.check_author;
             int check_genre=index.check_genre;
-            cout << check_genre <<" "<< check_title <<" "<< check_author <<"\n";
-            book_find.get_information();
+            
             for(auto book : ALL_BOOK[check_genre][check_title][check_author]){
-                book.get_information();
-                if(book== book_find){
-                    if(book.getAvailable()){
-                        cout << "The book :" << title << "of " << author << "is now available !";
+                if(book== book_find){ 
+                           
+                    if(ALL_BOOK[check_genre][check_title][check_author][0].getAvailable()){
+                        cout << "The book :" << title << "of " << author << "is  available ! \n";
                         return 1; 
                     }
                 } 
@@ -321,11 +366,22 @@ class Libary {
 };
 int main() {
     Libary Libary;
-    // Libary.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
-    Libary.Find_book_with_special_info("-1","-1","fiction");
-    // Book bookk= Li
+    // Libary.test_Allbook();
+    
+    Libary.Find_the_book_availabel("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    
+    Book book1("To Kill a Mockingbird" ,"Harper Lee","Fiction");
+    // check_index in =hash_function("To Kill a Mockingbird" ," Harper Lee "," Fiction");
+    
+    Libary.Borrow_in_lib(book1);
+    Libary.Find_the_book_availabel(book1.getTitle(), book1.getAuthor(), book1.getGenre());
+    
+
+
     return 0;
 }
+
+
 // class Student{
 //     private:
 //         string name;

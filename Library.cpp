@@ -49,15 +49,15 @@ bool Book::getAvailable() {
 }
 
 void Book::Borrow_book() {
-    available = false;
+    this->available = 0;
 }
 
 void Book::Return_book() {
-    available = true;
+    this->available = 1;
 }
 
 void Book::get_information() {
-    cout << "The book: " << title << " belongs to " << author << " and is a " << genre << " type book" << endl;
+    cout << "The title: " << title << " . The author : " << author << " . The genre : " << genre  << endl;
 }
 
 
@@ -178,6 +178,37 @@ vector<vector<vector<vector<Book>>>> Library :: get_ALLBOOK(){
     return ALL_BOOK;
 }
 
+void Library :: Borrow_in_lib(Book book){
+    string title=trimSentence(book.getTitle());
+    string author=trimSentence(book.getAuthor());
+    string genre=trimSentence(book.getGenre());
+    check_index index=hash_function(title,author,genre);
+    int check_title= index.check_title;
+    int check_author=index.check_author;
+    int check_genre=index.check_genre;
+    for(int i=0; i< ALL_BOOK[check_genre][check_title][check_author].size(); i++){
+        Book books=ALL_BOOK[check_genre][check_title][check_author][i];
+        if(books.getTitle()== title && books.getAuthor()==author && books.getGenre()==genre){        
+            ALL_BOOK[check_genre][check_title][check_author][i].Borrow_book();
+        } 
+    };
+}
+
+void Library :: Return_in_lib(Book book){
+    string title=trimSentence(book.getTitle());
+    string author=trimSentence(book.getAuthor());
+    string genre=trimSentence(book.getGenre());
+    check_index index=hash_function(title,author,genre);
+    int check_title= index.check_title;
+    int check_author=index.check_author;
+    int check_genre=index.check_genre;
+    for(int i=0; i< ALL_BOOK[check_genre][check_title][check_author].size(); i++){
+        Book books=ALL_BOOK[check_genre][check_title][check_author][i];
+        if(books.getTitle()== title && books.getAuthor()==author && books.getGenre()==genre){      
+            ALL_BOOK[check_genre][check_title][check_author][i].Return_book();
+        } 
+    };
+}
 /* this function will return the index location of the book
 return the location if it is available otherwise return the final index =-1*/
 index_of_location Library::Find_the_book_availabel(string title, string author, string genre) {
@@ -197,7 +228,7 @@ index_of_location Library::Find_the_book_availabel(string title, string author, 
         
         if (ALL_BOOK[check_genre][check_title][check_author][i] == book_find) {
             if (ALL_BOOK[check_genre][check_title][check_author][i].getAvailable()) {
-                cout << "The book: " << title << " by " << author << " is now available!" << endl;
+                cout << "The book: " << title << " by " << author << " is available!" << endl;
                 location.index=i;
                 return location;
             }
@@ -209,6 +240,9 @@ index_of_location Library::Find_the_book_availabel(string title, string author, 
 }
 
 vector<Book> Library::Find_book_with_special_info(string title, string author, string genre) {
+    title=trimSentence(title);
+    author=trimSentence(author);
+    genre=trimSentence(genre);
     check_index index = hash_function(title, author, genre);
     int check_title = index.check_title;
     int check_author = index.check_author;
@@ -293,29 +327,41 @@ vector<Book> Library::Find_book_with_special_info(string title, string author, s
             }
         }
     }
+    if(author!="-1" && title !="-1" && genre =="-1"){
+        for(int i=0; i< ALL_BOOK.size(); i++){
+            if( check_title <ALL_BOOK[i].size() && check_author <ALL_BOOK[i][check_title].size()){
+                for( Book book :ALL_BOOK[i][check_title][check_author]){
+                    if ((book.getTitle() == title || book.getTitle() == up_title) &&
+                        (book.getAuthor() == author || book.getAuthor() == up_author)) {
+                        related_title.push_back(book);
+                    }
+                }   
+            }
+        }
+    }
     int i=0;
     if (!related_title.empty()) {
-        cout << "List of books whose title is " << title << ":\n";
+        cout << "List of books whose title is " <<"\"" << title << "\":\n";
         for (Book book : related_title) {
-            cout << "%d :", i;
+            cout <<  i <<" : ";
             book.get_information();
             i++;
         }
         return related_title;
     }
     else if (!related_author.empty()) {
-        cout << "List of books whose author is " << author << ":\n";
+        cout << "List of books whose author is " <<"\""<< author << "\":\n";
         for (Book book : related_author) {
-            cout << "%d :", i;
+            cout <<  i <<" : ";
             book.get_information();
             i++;
         }
         return related_author;
     }
     else if (!related_genre.empty()) {
-        cout << "List of books whose genre is " << genre << ":\n";
+        cout << "List of books whose genre is "<<"\"" << genre << "\":\n";
         for (Book book : related_genre) {
-            cout << "%d :", i;
+            cout <<  i <<" : ";
             book.get_information();
             i++;
         }

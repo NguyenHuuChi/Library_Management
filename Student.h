@@ -10,7 +10,8 @@
 #include <ctime>
 #include"Library.h"
 using namespace std;
-
+#ifndef STUDENT_H
+#define STUDENT_H
 struct information_borrow_book{
     index_of_location Index;
     time_t time;
@@ -39,7 +40,7 @@ class Student{
         Student(string name , string Email, string ID);
 
         //function borrow the book
-        void Borrow_book(Library & library,Book book);
+        void Borrow_book_student(Library & library,Book book);
 
         //function return the book;
         void Return_book_student(Library &  Library, Book book);
@@ -62,3 +63,4 @@ class Manage_student{
         void History_borrow_and_return_book(const string& a);
 
 };
+#endif // STUDENT_H

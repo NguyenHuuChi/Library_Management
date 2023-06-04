@@ -50,7 +50,7 @@ Student :: Student(string name , string Email, string ID){
 }
 
 // This function will find the location of book in library, change the state of book in the library
-void Student :: Borrow_book(Library & library,Book book){
+void Student :: Borrow_book_student(Library & library,Book book){
         // Get the current time
     time_t borrowTime = time(nullptr);
     index_of_location Index= library.Find_the_book_availabel(book.getTitle(), book.getAuthor(), book.getGenre());
@@ -58,10 +58,13 @@ void Student :: Borrow_book(Library & library,Book book){
     infor_bor_book.time =borrowTime;
     infor_bor_book.Index= Index;
     if(Index.index != -1){
-        library.get_ALLBOOK()[Index.genre][Index.title][Index.author][Index.index].Borrow_book();
+        // library.get_ALLBOOK()[Index.genre][Index.title][Index.author][Index.index].Borrow_book_student();
+        library.Borrow_in_lib(book);
         pair<information_borrow_book,Book> book1(infor_bor_book, book);
         list_borrowed_book.push_back(book1);
-    }    
+    } else {
+        cout <<" You can not borrow the book !\n";
+    }
 };
 
 // This function will change the state of the book in the library
@@ -85,10 +88,13 @@ void Student:: Return_book_student(Library &  Library, Book book){
             
             // Turn the book in the library to be availale;
             index_of_location ind_loc= inf_book.Index;
-            Library.get_ALLBOOK()[ind_loc.genre][ind_loc.title][ind_loc.author][ind_loc.index].Return_book();
+            // Library.get_ALLBOOK()[ind_loc.genre][ind_loc.title][ind_loc.author][ind_loc.index].Return_book();
+            Library.Return_in_lib(book);
             list_borrowed_book.erase(list_borrowed_book.begin()+i);
+            return;
         }
     }
+    cout << " You did not borrow the book \"" << book.getTitle() <<"\"";
 } 
 
 
@@ -162,7 +168,7 @@ void Manage_student :: Take_infor_student_book(Library & library ){
             int check_borrow;
             cin >> check_borrow;
             if(check_borrow == 1){
-                student_ob.Borrow_book(library,book1 );
+                student_ob.Borrow_book_student(library,book1 );
                 pair<string,string> book_related_to_id(title, ID);
                 List_book_is_related_to_ID.push_back(book_related_to_id);
                 // if(find(student_ob: List_student_borrow_book))
