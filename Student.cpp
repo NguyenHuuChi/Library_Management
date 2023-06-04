@@ -234,10 +234,10 @@ void Manage_student :: Take_infor_student_book(Library & library ){
             if (title.empty() ) title="-1";
             if (author.empty()) author="-1";
             if (genre.empty()) genre ="-1";
-            if(title!="-1"&& author!="-1" && genre !="-1"){
-                index_of_location inde=library.Find_the_book_availabel(title,author,genre);
-                if (inde.index!=-1)break;
-            }
+            // if(title!="-1"&& author!="-1" && genre !="-1"){
+            //     index_of_location inde=library.Find_the_book_availabel(title,author,genre);
+            //     if (inde.index==-1)break;
+            // }
             vector<Book> List_book_available= library.Find_book_with_special_info(title, author, genre);
             // index_of_location inde=library.Find_the_book_availabel(title,author,genre);
             // if (inde.index==-1)break;
@@ -347,13 +347,84 @@ void Manage_student :: Take_infor_student_book(Library & library ){
                 }
             }
         } else if (check_borrow_return== 3){
-            cout << "Enter the information of book: \n";
-            string title1, author1 , genre1;
-            cout << "Title :"; cin >> title1;
-            cout << "Author : "; cin >> author1;
-            cout << "Genre : "; cin >> genre1;
-            Book book(title1, author1,genre1);
-            Find_student_borrow_book(library, book);
+
+            cout << "Which book you want to borrow ?\n";
+            string title;
+            string author;
+            string genre;
+            string abstract;
+            getline(cin,abstract);
+            cout << "The title :\n";
+            getline(cin , title);
+            cout << "The Author :\n";
+            getline(cin,author);
+            cout << "The Genre: \n";
+            getline(cin , genre);
+            if (title.empty() ) title="-1";
+            if (author.empty()) author="-1";
+            if (genre.empty()) genre ="-1";
+            
+            vector<Book> List_book_available= library.Find_book_with_special_info(title, author, genre);
+            // index_of_location inde=library.Find_the_book_availabel(title,author,genre);
+            // if (inde.index==-1)break;
+            if( List_book_available.size()!=0){
+                int num ;
+                cout <<" You want to find which book ? \n ";
+                cin >> num;
+                while (num >= List_book_available.size()){
+                    cout << "Enter the number which is smaller than "<< List_book_available.size() << "\n";
+                    cin >> num;
+                }
+                cout << "You want to find Student who borrow the book?" ;
+                Book book1 =List_book_available[num];
+                book1.get_information();
+                cout << " 1 : Yes \n 2 : No \n";
+                int check_borrow;
+                cin >> check_borrow;
+                
+                if(check_borrow == 1){
+                    Find_student_borrow_book(library, book1);
+                    // index_of_location ind =library.Find_the_book_availabel(book1.getTitle(), book1.getAuthor(), book1.getGenre());
+                    // // check whether the book is available
+                    // if(ind.index != -1){
+                    //     pair<string,string> book_related_to_id(book1.getTitle(), ID);
+                    //     // cout << "test ID, title" << book1.getTitle() <<" " << ID << "\n";
+                    //     List_book_is_related_to_ID.push_back(book_related_to_id);//List_book_is_related_to_ID; // first is title and second is ID
+                        
+                    //     auto it = find(List_student_borrow_book.begin(), List_student_borrow_book.end(), student_ob);
+
+                    //     if (it == List_student_borrow_book.end()) {
+                    //         student_ob.Borrow_book_student(library,book1 );
+                    //         List_student_borrow_book.push_back(student_ob); 
+                    //     } else {
+                    //         int index = std::distance(List_student_borrow_book.begin(), it);
+                    //         cout << index;
+                    //         List_student_borrow_book[index].Borrow_book_student(library,book1);
+                    //     }
+                        
+                    //     // append into the History file
+                    //     // Get the current time
+                    //     time_t currentTime = time(nullptr);
+                        
+                    //     // Convert the time to a local time string
+                    //     string currentTimeString = ctime(&currentTime);
+                    //     string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+
+                    //     "borrow the book :" + book1.getTitle() + "   Time : " + currentTimeString;
+                    //     History_borrow_and_return_book(A);
+
+                    //     // break;
+                    //     }
+                        
+                    } 
+            }
+
+            // cout << "Enter the information of book: \n";
+            // string title1, author1 , genre1;
+            // cout << "Title :"; cin >> title1;
+            // cout << "Author : "; cin >> author1;
+            // cout << "Genre : "; cin >> genre1;
+            // Book book(title1, author1,genre1);
+            // Find_student_borrow_book(library, book);
 
         } else if ( check_borrow_return==4){
             print_out_all_student_who_borrow_book();
