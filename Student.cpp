@@ -54,6 +54,13 @@ void Student :: get_list_book_borrow_student(){
     }
     
 };
+// void Student :: remove_the_book_borrow(int index_of_element_remove){
+//     cout <<"yo in reomve\n";
+//     get_list_book_borrow_student();
+//     list_borrowed_book.erase(list_borrowed_book.begin()+index_of_element_remove);
+//     get_list_book_borrow_student();
+//     cout <<"yo in reomve\n";
+// }
 
 Student :: Student(string name , string Email, string ID){
     this->name=name;
@@ -79,7 +86,7 @@ void Student :: Borrow_book_student(Library & library,Book book){
     }
 };
 
-// This function will change the state of the book in the library
+// This function will change the state of the book in the library it also delete in the list_borrow_book
 void Student:: Return_book_student(Library &  Library, Book book){
     for(int i=0; i< list_borrowed_book.size(); i++){
         if (list_borrowed_book[i].second == book){
@@ -208,6 +215,8 @@ void Manage_student :: Take_infor_student_book(Library & library ){
         cout << " 1 :borrow book ! \n 2 :Return book ! \n 3 :Find the book is borrowed \n 4 :Print out all student borrow book \n 5 :Print out all student with their borrow book \n 6 :Find the book you are borrowing\n 7 :Quit !";
         int check_borrow_return;
         cin >> check_borrow_return;
+        
+        
         if(check_borrow_return== 1){
             cout << "Which book you want to find ?\n";
             string title;
@@ -240,8 +249,9 @@ void Manage_student :: Take_infor_student_book(Library & library ){
                 cout << " 1 : Yes \n 2 : No \n";
                 int check_borrow;
                 cin >> check_borrow;
+                
                 if(check_borrow == 1){
-                    student_ob.Borrow_book_student(library,book1 );
+                    
                     
                     pair<string,string> book_related_to_id(book1.getTitle(), ID);
                     List_book_is_related_to_ID.push_back(book_related_to_id);//List_book_is_related_to_ID; // first is title and second is ID
@@ -249,10 +259,14 @@ void Manage_student :: Take_infor_student_book(Library & library ){
                     auto it = find(List_student_borrow_book.begin(), List_student_borrow_book.end(), student_ob);
 
                     if (it == List_student_borrow_book.end()) {
-                    List_student_borrow_book.push_back(student_ob); 
-                    } 
+                        student_ob.Borrow_book_student(library,book1 );
+                        List_student_borrow_book.push_back(student_ob); 
+                    } else {
+                        int index = std::distance(List_student_borrow_book.begin(), it);
+                        cout << index;
+                        List_student_borrow_book[index].Borrow_book_student(library,book1);
+                    }
                     
-
                     // append into the History file
                     string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+
                     "borrow the book :" + book1.getTitle();
@@ -260,44 +274,43 @@ void Manage_student :: Take_infor_student_book(Library & library ){
 
                     break;
                 } 
+                break;
             }
         } else if(check_borrow_return==2){
             // cout << "Which book you want to return :\n";
             for(int i=0; i < List_student_borrow_book.size(); i++){
                 if(List_student_borrow_book[i] == student_ob){
-                    while (true){
-                        cout << "Which books you want to return ?\n";
-                        for (int j=0; j < List_student_borrow_book[i].get_list_book_borrow().size(); j++){
-                            cout <<j <<": ";
-                            List_student_borrow_book[i].get_list_book_borrow()[j].second.get_information();
+                    
+                    cout << "Which books you want to return ?\n";
+                    for (int j=0; j < List_student_borrow_book[i].get_list_book_borrow().size(); j++){
+                        cout <<j <<": ";
+                        List_student_borrow_book[i].get_list_book_borrow()[j].second.get_information();
+                    }
+                    int remove_book;
+                    cin >> remove_book;
+
+                    // make sure the useer input the small 
+                    if(remove_book>=0){
+                        while(remove_book >= List_student_borrow_book[i].get_list_book_borrow().size()){
+                            cout <<" Enter the number is smaller than " << List_student_borrow_book[i].get_list_book_borrow().size() <<": ";
+                            cin >> remove_book;
                         }
-                        int remove_book;
-                        cin >> remove_book;
+                        // return in the library and delete in the student;
+                        Book book1= List_student_borrow_book[i].get_list_book_borrow()[remove_book].second;
+                        List_student_borrow_book[i].Return_book_student(library,book1);
 
-                        // make sure the useer input the small 
-                        if(remove_book>=0){
-                            while(remove_book >= List_student_borrow_book[i].get_list_book_borrow().size()){
-                                cout <<" Enter the number is smaller than " << List_student_borrow_book[i].get_list_book_borrow().size() <<": ";
-                                cin >> remove_book;
-                            }
-                            // return in the library
-                            Book book1= List_student_borrow_book[i].get_list_book_borrow()[remove_book].second;
-                            List_student_borrow_book[i].Return_book_student(library,book1);
-                            
-                            List_student_borrow_book[i].get_list_book_borrow().erase(List_student_borrow_book[i].get_list_book_borrow().begin()+remove_book);
-                            if (List_student_borrow_book[i].get_list_book_borrow().size()<=0){
-                                List_student_borrow_book.erase(List_student_borrow_book.begin()+i);
+                        if (List_student_borrow_book[i].get_list_book_borrow().size()==0){
+                            List_student_borrow_book.erase(List_student_borrow_book.begin()+i);
 
-                            }
-                            // append into the History file
-                            string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+
-                            "return the book :" + List_student_borrow_book[i].get_list_book_borrow()[remove_book].second.getTitle();
-                            History_borrow_and_return_book(A);
-                            break;
                         }
                         
-                    }
-                
+                        // append into the History file
+                        string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+ "return the book :" + book1.getTitle();
+                        History_borrow_and_return_book(A);
+                    
+                    }   
+                    
+                    break;
                 }
             }
         } else if (check_borrow_return== 3){
@@ -317,6 +330,7 @@ void Manage_student :: Take_infor_student_book(Library & library ){
             for(int i=0; i < List_student_borrow_book.size(); i++){
                 if(List_student_borrow_book[i] == student_ob){
                     List_student_borrow_book[i].get_list_book_borrow_student();
+                    break;
                 }
             }
         } 

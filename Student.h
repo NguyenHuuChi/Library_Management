@@ -39,6 +39,9 @@ class Student{
         vector<pair< information_borrow_book ,Book>> get_list_book_borrow();
 
         void get_list_book_borrow_student();
+        
+        //function delete the book student borrow
+        void remove_the_book_borrow(int index_of_element_remove);
 
         //Declare constructor
         Student(string name , string Email, string ID);

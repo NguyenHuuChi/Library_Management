@@ -130,13 +130,16 @@ check_index hash_function(string title, string author, string genre) {
     int check_author = check_author1 + check_author2;
     if (check_author >200)check_author-=200;
     if (check_author >100)check_author-=100;
+    if (check_author>50) check_author-=50;
     int check_title = check_title1 + check_title2;
     if (check_title >200)check_title-=200;
     if (check_title>100)check_title-=100;
+    if (check_title>50) check_title-=50;
     int check_genre = check_genre1 + check_genre2;
     if (check_genre>200)check_genre-=200;
     if (check_genre >100) check_genre-=100;
     if (check_genre>50) check_genre-=50;
+    if (check_genre> 25) check_genre-=25;
 
     result.check_title = check_title;
     result.check_author = check_author;
@@ -156,7 +159,7 @@ void Library::locate_the_book(Book book) {
 }
 
 Library::Library() {
-    ALL_BOOK = vector<vector<vector<vector<Book>>>>(51, vector<vector<vector<Book>>>(101, vector<vector<Book>>(101, vector<Book>(0))));
+    ALL_BOOK = vector<vector<vector<vector<Book>>>>(26, vector<vector<vector<Book>>>(51, vector<vector<Book>>(51, vector<Book>(0))));
     string title_name;
     string author_name;
     ifstream Data_base_book("book.inp");
