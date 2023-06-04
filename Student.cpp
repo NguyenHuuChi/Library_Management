@@ -235,8 +235,8 @@ void Manage_student :: Take_infor_student_book(Library & library ){
             if (genre.empty()) genre ="-1";
             
             vector<Book> List_book_available= library.Find_book_with_special_info(title, author, genre);
-            index_of_location inde=library.Find_the_book_availabel(title,author,genre);
-            if (inde.index==-1)break;
+            // index_of_location inde=library.Find_the_book_availabel(title,author,genre);
+            // if (inde.index==-1)break;
             while(true){
                 int num ;
                 cout <<" You want to find which book ? \n ";

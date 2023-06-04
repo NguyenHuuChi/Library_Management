@@ -29,3 +29,13 @@ chi , The student ID is asdfreturn the book :To Kill a Mockingbird
 chi , The student ID is asdborrow the book :To Kill a Mockingbird
 jhg , The student ID is asdfborrow the book :To Kill a Mockingbird
 jhg , The student ID is asdfreturn the book :To Kill a Mockingbird
+sd , The student ID is sdfborrow the book :To Kill a Mockingbird   Time : Sun Jun 04 23:52:58 2023
+
+sd , The student ID is sdfborrow the book :Pride and Prejudice   Time : Sun Jun 04 23:55:14 2023
+
+sd , The student ID is sdfreturn the book :Pride and Prejudice   Time : Sun Jun 04 23:55:33 2023
+
+chi , The student ID is casdborrow the book :To Kill a Mockingbird   Time : Mon Jun 05 00:05:34 2023
+
+chi , The student ID is casdborrow the book :Pride and Prejudice   Time : Mon Jun 05 00:06:29 2023
+
