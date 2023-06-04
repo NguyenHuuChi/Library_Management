@@ -12,6 +12,7 @@
 using namespace std;
 #ifndef STUDENT_H
 #define STUDENT_H
+
 struct information_borrow_book{
     index_of_location Index;
     time_t time;
@@ -32,9 +33,12 @@ class Student{
         string get_ID();
         void get_information();
         bool operator==(const Student & other)const;
+
         
         // return the value of list_book_borrow
-        vector<pair< information_borrow_book ,Book>> list_book_borrow();
+        vector<pair< information_borrow_book ,Book>> get_list_book_borrow();
+
+        void get_list_book_borrow_student();
 
         //Declare constructor
         Student(string name , string Email, string ID);
@@ -51,15 +55,22 @@ class Manage_student{
         vector<Student> List_student_borrow_book;
         vector<pair<string , string>> List_book_is_related_to_ID; // first is title and second is ID
     public :
-        vector<Student> get_list_student_borrow_book(){
-            return List_student_borrow_book;
-        };
+        void add_student_borrow_book(Student student);
+         
+        void remove_student_borrow_book(Student student1);
+
+        void print_out_all_student_who_borrow_book();
+
+        void print_out_all_student_with_their_borrow_book();
+
+        void test_find();
         // function find student who borrow the special book;
         void Find_student_borrow_book(Library & Library, Book book);
 
         // This function to take input from user;
         void Take_infor_student_book(Library & library);
 
+        // This function will save the history borrow and return book of student
         void History_borrow_and_return_book(const string& a);
 
 };
