@@ -66,6 +66,23 @@ int main(){
     Manage_student student_management;
    
     student_management.Take_infor_student_book(libref);
+    while (true){
+        cout << "You want to login ?\n";
+        cout << " 1 : yes \n 2 : no";
+        int check;
+        cin >> check;
+        switch (check)
+        {
+        case 1:
+            student_management.Take_infor_student_book(libref);
+            break;
+        
+        case 2:
+            break;
+        } ;
+        if (check==2) break;
+    }
+
 
     return 0;
 }

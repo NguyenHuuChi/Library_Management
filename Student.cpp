@@ -151,11 +151,11 @@ void Manage_student:: print_out_all_student_with_their_borrow_book(){
     }
     
 }
-void Manage_student:: test_find(){
-    // vector<pair<string , string>> List_book_is_related_to_ID
-    pair<string , string> a("To Kill a Mockingbird","V20220000");
-    List_book_is_related_to_ID.push_back(a);
-}
+// void Manage_student:: test_find(){
+//     // vector<pair<string , string>> List_book_is_related_to_ID
+//     pair<string , string> a("To Kill a Mockingbird","V20220000");
+//     List_book_is_related_to_ID.push_back(a);
+// }
 void Manage_student:: Find_student_borrow_book(Library& library,Book book){
     for(int i=0; i<List_book_is_related_to_ID.size(); i++){
         string title =List_book_is_related_to_ID[i].first;
@@ -235,6 +235,8 @@ void Manage_student :: Take_infor_student_book(Library & library ){
             if (genre.empty()) genre ="-1";
             
             vector<Book> List_book_available= library.Find_book_with_special_info(title, author, genre);
+            index_of_location inde=library.Find_the_book_availabel(title,author,genre);
+            if (inde.index==-1)break;
             while(true){
                 int num ;
                 cout <<" You want to find which book ? \n ";
@@ -252,27 +254,37 @@ void Manage_student :: Take_infor_student_book(Library & library ){
                 
                 if(check_borrow == 1){
                     
-                    
-                    pair<string,string> book_related_to_id(book1.getTitle(), ID);
-                    List_book_is_related_to_ID.push_back(book_related_to_id);//List_book_is_related_to_ID; // first is title and second is ID
-                    
-                    auto it = find(List_student_borrow_book.begin(), List_student_borrow_book.end(), student_ob);
+                    index_of_location ind =library.Find_the_book_availabel(book1.getTitle(), book1.getAuthor(), book1.getGenre());
+                    // check whether the book is available
+                    if(ind.index != -1){
+                        pair<string,string> book_related_to_id(book1.getTitle(), ID);
+                        cout << "test ID, title" << book1.getTitle() <<" " << ID << "\n";
+                        List_book_is_related_to_ID.push_back(book_related_to_id);//List_book_is_related_to_ID; // first is title and second is ID
+                        
+                        auto it = find(List_student_borrow_book.begin(), List_student_borrow_book.end(), student_ob);
 
-                    if (it == List_student_borrow_book.end()) {
-                        student_ob.Borrow_book_student(library,book1 );
-                        List_student_borrow_book.push_back(student_ob); 
-                    } else {
-                        int index = std::distance(List_student_borrow_book.begin(), it);
-                        cout << index;
-                        List_student_borrow_book[index].Borrow_book_student(library,book1);
+                        if (it == List_student_borrow_book.end()) {
+                            student_ob.Borrow_book_student(library,book1 );
+                            List_student_borrow_book.push_back(student_ob); 
+                        } else {
+                            int index = std::distance(List_student_borrow_book.begin(), it);
+                            cout << index;
+                            List_student_borrow_book[index].Borrow_book_student(library,book1);
+                        }
+                        
+                        // append into the History file
+                        // Get the current time
+                        time_t currentTime = time(nullptr);
+                        
+                        // Convert the time to a local time string
+                        string currentTimeString = ctime(&currentTime);
+                        string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+
+                        "borrow the book :" + book1.getTitle() + "   Time : " + currentTimeString;
+                        History_borrow_and_return_book(A);
+
+                        break;
                     }
                     
-                    // append into the History file
-                    string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+
-                    "borrow the book :" + book1.getTitle();
-                    History_borrow_and_return_book(A);
-
-                    break;
                 } 
                 break;
             }
@@ -303,9 +315,26 @@ void Manage_student :: Take_infor_student_book(Library & library ){
                             List_student_borrow_book.erase(List_student_borrow_book.begin()+i);
 
                         }
+                        // delete in List_book_is related to ID
+                        
+                        pair<string, string> remove_title_id(book1.getTitle(), ID);
+                        auto removalCondition = [&remove_title_id](const pair<string, string>& element) {
+                            return element == remove_title_id;
+                        };
+
+                        auto it = std::remove_if(List_book_is_related_to_ID.begin(), List_book_is_related_to_ID.end(), removalCondition);
+                        List_book_is_related_to_ID.erase(it, List_book_is_related_to_ID.end());
+
+                
+    
+                        // Get the current time
+                        time_t currentTime = time(nullptr);
+                        
+                        // Convert the time to a local time string
+                        string currentTimeString = ctime(&currentTime);
                         
                         // append into the History file
-                        string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+ "return the book :" + book1.getTitle();
+                        string A= student_ob.get_name()+" , The student ID is "+ student_ob.get_ID()+ "return the book :" + book1.getTitle() + "   Time : "+currentTimeString;
                         History_borrow_and_return_book(A);
                     
                     }   
