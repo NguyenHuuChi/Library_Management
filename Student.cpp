@@ -316,10 +316,7 @@ void Manage_student :: Take_infor_student_book(Library & library ){
         } else if(check_borrow_return== 6){
             for(int i=0; i < List_student_borrow_book.size(); i++){
                 if(List_student_borrow_book[i] == student_ob){
-                    for (int j=0; j < List_student_borrow_book[i].get_list_book_borrow().size(); j++){
-                        cout <<j <<": ";
-                        List_student_borrow_book[i].get_list_book_borrow()[j].second.get_information();
-                    }
+                    List_student_borrow_book[i].get_list_book_borrow_student();
                 }
             }
         } 
