@@ -13,6 +13,13 @@ using namespace std;
 
 
 #include <iostream>
+void deleteFileContent(const string& filename) {
+    ofstream file(filename, ios::trunc); // Open the file in write mode, truncating existing content
+
+    if (file.is_open()) {
+        file.close(); // Close the file to delete its content
+    }
+}
 int main(){
     // Library Library;
     
@@ -80,7 +87,8 @@ int main(){
         case 2:
             break;
         } ;
-        if (check==2) break;
+        
+        if (check==2){deleteFileContent("History.out"); break;};
     }
 
 

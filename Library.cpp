@@ -12,7 +12,16 @@ using namespace std;
 #include "Library.h"
 #include <iostream>
 
+string capitalizeAllString(const string& str) {
+    string result = str;
 
+    // Capitalize each character
+    for (char& c : result) {
+        c = toupper(c);
+    }
+
+    return result;
+}
 
 Book::Book(string title, string author, string genre) {
     this->title = title;
@@ -93,7 +102,10 @@ information_book read_line(string line){
     size_t end3= line.find(delimiter3);
     title =line.substr(end1 + delimiter1.length(), end2 -delimiter2.length() );
     author= line.substr(end2 + delimiter2.length(),end3 -end2-delimiter2.length());
-    genre=line.substr(end3 +delimiter3.length(), line.length() );     
+    genre=line.substr(end3 +delimiter3.length(), line.length() );    
+    title=capitalizeAllString(title);
+    author=capitalizeAllString(author);
+    genre=capitalizeAllString(genre);  
     book.title=trimSentence(title);
     book.author=trimSentence(author);
     book.genre=trimSentence(genre);
@@ -219,6 +231,9 @@ index_of_location Library::Find_the_book_availabel(string title, string author, 
     title = trimSentence(title);
     author = trimSentence(author);
     genre = trimSentence(genre);
+    title=capitalizeAllString(title);
+    author=capitalizeAllString(author);
+    genre=capitalizeAllString(genre); 
     Book book_find(title, author, genre);
     check_index index = hash_function(title, author, genre);
     int check_title = index.check_title;
@@ -246,6 +261,9 @@ vector<Book> Library::Find_book_with_special_info(string title, string author, s
     title=trimSentence(title);
     author=trimSentence(author);
     genre=trimSentence(genre);
+    title=capitalizeAllString(title);
+    author=capitalizeAllString(author);
+    genre=capitalizeAllString(genre); 
     check_index index = hash_function(title, author, genre);
     int check_title = index.check_title;
     int check_author = index.check_author;
