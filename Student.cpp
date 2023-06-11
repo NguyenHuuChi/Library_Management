@@ -13,7 +13,7 @@
 #include "Student.h"
 using namespace std;
 
-int Calculate_penalty_money(int day, int hour){
+int Calculate_penalty_money(int day, int hour){ //function to calculate penalty money if overdue
     if (day <=2){
         cout << "Do not overdue the day of return of books\n";
         return 0;
@@ -37,40 +37,32 @@ string Student :: get_Email(){
 void Student :: get_information(){
     cout << "Name : " << name <<" Email : " << Email << " Student ID : " << ID << "\n";
 }
-bool Student :: operator==(const Student & other)const{
+bool Student :: operator==(const Student & other)const{ 
     return ID == other.ID;
 };
 vector<pair< information_borrow_book ,Book>> Student ::  get_list_book_borrow(){
     return list_borrowed_book;
 }
-void Student :: get_list_book_borrow_student(){
+void Student :: get_list_book_borrow_student(){ //get the list of books that student are borrowing
     if (list_borrowed_book.size()!=0){
         cout << "The list of book which student has student ID " << ID <<" borrow are : \n";
         for(auto book : list_borrowed_book){
             book.second.get_information();
         }
     } else {
-        cout << "yo";
         cout <<"The Student has ID " << ID <<" do not borrow any book \n";
     }
     
 };
-// void Student :: remove_the_book_borrow(int index_of_element_remove){
-//     cout <<"yo in reomve\n";
-//     get_list_book_borrow_student();
-//     list_borrowed_book.erase(list_borrowed_book.begin()+index_of_element_remove);
-//     get_list_book_borrow_student();
-//     cout <<"yo in reomve\n";
-// }
 
-Student :: Student(string name , string Email, string ID){
+Student :: Student(string name , string Email, string ID){// constructor of student
     this->name=name;
     this-> Email=Email;
     this->ID =ID;
 }
 
 // This function will find the location of book in library, change the state of book in the library
-void Student :: Borrow_book_student(Library & library,Book book){
+void Student :: Borrow_book_student(Library & library,Book book){ //borrow book, change the availability of book, get the time borrow
         // Get the current time
     time_t borrowTime = time(nullptr);
     index_of_location Index= library.Find_the_book_availabel(book.getTitle(), book.getAuthor(), book.getGenre());
@@ -88,7 +80,7 @@ void Student :: Borrow_book_student(Library & library,Book book){
 };
 
 // This function will change the state of the book in the library it also delete in the list_borrow_book
-void Student:: Return_book_student(Library &  Library, Book book){
+void Student:: Return_book_student(Library &  Library, Book book){//return book, change the availability of the book, get the time return
     for(int i=0; i< list_borrowed_book.size(); i++){
         if (list_borrowed_book[i].second == book){
             
@@ -123,17 +115,17 @@ void Student:: Return_book_student(Library &  Library, Book book){
 //-------------------------------------------------------
 // define the Manage_student class
 
-void Manage_student:: add_student_borrow_book(Student student){
+void Manage_student:: add_student_borrow_book(Student student){  //add student list of students
     List_student_borrow_book.push_back(student);
 };
-void Manage_student:: remove_student_borrow_book(Student student1){
+void Manage_student:: remove_student_borrow_book(Student student1){ //remove student
     for(int i= 0; i <List_student_borrow_book.size(); i++){
         if (student1 == List_student_borrow_book[i]){
             List_student_borrow_book.erase(List_student_borrow_book.begin()+i);
         }        
     }
 }; 
-void Manage_student:: print_out_all_student_who_borrow_book(){
+void Manage_student:: print_out_all_student_who_borrow_book(){ //print out all the students that borrowing a book
     if(List_student_borrow_book.size()!=0){
         for(Student student : List_student_borrow_book){
             student.get_information();
@@ -142,7 +134,7 @@ void Manage_student:: print_out_all_student_who_borrow_book(){
         cout << "There is no student borrow book ! \n";
     }    
 }
-void Manage_student:: print_out_all_student_with_their_borrow_book(){
+void Manage_student:: print_out_all_student_with_their_borrow_book(){ //print out all student and their borrow book
     if(List_book_is_related_to_ID.size() >0){
         for (auto pair1 : List_book_is_related_to_ID){
             cout << "Student with ID " << pair1.second << ": " << pair1.first <<"\n";
@@ -152,12 +144,7 @@ void Manage_student:: print_out_all_student_with_their_borrow_book(){
     }
     
 }
-// void Manage_student:: test_find(){
-//     // vector<pair<string , string>> List_book_is_related_to_ID
-//     pair<string , string> a("To Kill a Mockingbird","V20220000");
-//     List_book_is_related_to_ID.push_back(a);
-// }
-void Manage_student:: Find_student_borrow_book(Library& library,Book book){
+void Manage_student:: Find_student_borrow_book(Library& library,Book book){ //find the student that borrow a particular book
     for(int i=0; i<List_book_is_related_to_ID.size(); i++){
         string title =List_book_is_related_to_ID[i].first;
         string ID=List_book_is_related_to_ID[i].second;
@@ -171,11 +158,11 @@ void Manage_student:: Find_student_borrow_book(Library& library,Book book){
             }
         }
     }
-    cout << "Noone borrowed this book!\n";
+    cout << "No one borrowed this book!\n";
 };
 
 
-void Manage_student:: History_borrow_and_return_book(const string& a) {
+void Manage_student:: History_borrow_and_return_book(const string& a) { //record borrow and return in history file
     ofstream file("History.out", ios::app); // Open the file in append mode
 
     if (file.is_open()) {
@@ -186,7 +173,7 @@ void Manage_student:: History_borrow_and_return_book(const string& a) {
     }
 }
 
-string trimSentence1(string sentence) {
+string trimSentence1(string sentence) { // trim the sentence
     size_t start = sentence.find_first_not_of(" ");
     size_t end = sentence.find_last_not_of(" ");
 
@@ -198,7 +185,7 @@ string trimSentence1(string sentence) {
     return sentence.substr(start, end - start + 1);
 };
 
-void Manage_student :: Take_infor_student_book(Library & library ){
+void Manage_student :: Take_infor_student_book(Library & library ){ //take input
     cout << "Enter your information : \n";
     cout << "Enter your name : ";
     string name;

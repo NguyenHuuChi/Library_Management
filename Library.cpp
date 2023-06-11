@@ -12,7 +12,7 @@ using namespace std;
 #include "Library.h"
 #include <iostream>
 
-string capitalizeAllString(const string& str) {
+string capitalizeAllString(const string& str) { //function to capitalize
     string result = str;
 
     // Capitalize each character
@@ -23,7 +23,7 @@ string capitalizeAllString(const string& str) {
     return result;
 }
 
-Book::Book(string title, string author, string genre) {
+Book::Book(string title, string author, string genre) {  //constructor of BOOK 
     this->title = title;
     this->author = author;
     this->genre = genre;
@@ -42,7 +42,7 @@ string Book::getGenre() const {
     return genre;
 }
 
-bool Book::operator==(const Book& other) const {
+bool Book::operator==(const Book& other) const {    //Checking if two books are the same
     return (title == other.getTitle() && author == other.getAuthor());
 }
 
@@ -53,7 +53,7 @@ bool Book::operator<(const Book& other) const {
     return (title < other.getTitle());
 }
 
-bool Book::getAvailable() {
+bool Book::getAvailable() { 
     return available;
 }
 
@@ -65,7 +65,7 @@ void Book::Return_book() {
     this->available = 1;
 }
 
-void Book::get_information() {
+void Book::get_information() { // print the infomation of the book
     cout << "The title: " << title << " . The author : " << author << " . The genre : " << genre  << endl;
 }
 
@@ -88,7 +88,7 @@ string trimSentence(string sentence) {
 
     return sentence.substr(start, end - start + 1);
 };
-information_book read_line(string line){
+information_book read_line(string line){ //reading from the book data file, split the title,author and genre
     string delimiter1="*Title:";
     string delimiter2= "*Author:";
     string delimiter3="*Genre:";
@@ -113,7 +113,7 @@ information_book read_line(string line){
 }
 
 
-check_index hash_function(string title, string author, string genre) {
+check_index hash_function(string title, string author, string genre) { //hash function to generate unique index from title,author and genre
     check_index result;
     title = trimSentence(title);
     author = trimSentence(author);
@@ -161,7 +161,7 @@ check_index hash_function(string title, string author, string genre) {
 };
 
 
-void Library::locate_the_book(Book book) {
+void Library::locate_the_book(Book book) { //locate the book in the 4D Vector ALL_BOOK
     string title = book.getTitle();
     string author = book.getAuthor();
     string genre = book.getGenre();
@@ -170,7 +170,7 @@ void Library::locate_the_book(Book book) {
     Book book1 = ALL_BOOK[locate_book.check_genre][locate_book.check_title][locate_book.check_author][0];
 }
 
-Library::Library() {
+Library::Library() { //contructir to locate the book
     ALL_BOOK = vector<vector<vector<vector<Book>>>>(26, vector<vector<vector<Book>>>(51, vector<vector<Book>>(51, vector<Book>(0))));
     string title_name;
     string author_name;
@@ -193,7 +193,7 @@ vector<vector<vector<vector<Book>>>> Library :: get_ALLBOOK(){
     return ALL_BOOK;
 }
 
-void Library :: Borrow_in_lib(Book book){
+void Library :: Borrow_in_lib(Book book){ 
     string title=trimSentence(book.getTitle());
     string author=trimSentence(book.getAuthor());
     string genre=trimSentence(book.getGenre());
@@ -226,7 +226,7 @@ void Library :: Return_in_lib(Book book){
 }
 /* this function will return the index location of the book
 return the location if it is available otherwise return the final index =-1*/
-index_of_location Library::Find_the_book_availabel(string title, string author, string genre) {
+index_of_location Library::Find_the_book_availabel(string title, string author, string genre) { //find the location of the book
     index_of_location location;
     title = trimSentence(title);
     author = trimSentence(author);
@@ -257,7 +257,7 @@ index_of_location Library::Find_the_book_availabel(string title, string author, 
     return location;
 }
 
-vector<Book> Library::Find_book_with_special_info(string title, string author, string genre) {
+vector<Book> Library::Find_book_with_special_info(string title, string author, string genre) { //find the book when only getting the title,author or genre
     title=trimSentence(title);
     author=trimSentence(author);
     genre=trimSentence(genre);

@@ -24,7 +24,7 @@ class Book{
         string author;
         string genre;
         bool available;
-    public:
+    public: 
         Book(string title = "", string author = "", string genre = "");
         string getTitle() const ;
         string getAuthor() const ;
